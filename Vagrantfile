@@ -14,8 +14,12 @@ Vagrant.configure("2") do |config|
   # boxes at https://vagrantcloud.com/search.
   config.vm.box = "debian/bookworm64"
 
+
   # Port Forwarding 
   config.vm.network "forwarded_port", guest: 5000, host: 8080
+  
+  config.vm.provision "file", source: "hello.py", \
+    destination: "~/hello.py"
   
   # Enable provisioning with a shell script. Additional provisioners such as
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
@@ -31,11 +35,10 @@ Vagrant.configure("2") do |config|
 
   SHELL
 
-  config.vm.provision "file", source: "hello.py", destination: "/home/vagrant/hello.py"
 
-  config.vm.provision "shell", inline: <<-SHELL
-    source flask_venv/bin/activate
-    flask --app hello run --host=0.0.0.0
-  SHELL
+  # config.vm.provision "shell", inline: <<-SHELL
+  #   source flask_venv/bin/activate
+  #   flask --app hello run --host=0.0.0.0
+  # SHELL
 
 end
